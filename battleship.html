@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+
+
+<head>
+    <title>Battleship</title>
+
+    <script>
+
+        function Tile(redPin, whitePin, ship) {
+            this.redPin = redPin
+            this.whitePin = whitePin
+            this.ship = ship
+          
+        }
+
+        function Ship(location1, location2, location1Guessed, location2Guessed) {
+            this.location1 = location1 //string
+            this.location2 = location2 //string
+            this.location1Guessed = location1Guessed //bool
+            this.location2Guessed = location2Guessed //bool
+        }
+
+        var a1 = new Tile(false, false, true)
+        var a2 = new Tile(false, false, true)
+        var a3 = new Tile(false, false, false)
+        var b1 = new Tile(false, false, false)
+        var b2 = new Tile(false, false, false)
+        var b3 = new Tile(false, false, false)
+        var c1 = new Tile(false, false, false)
+        var c2 = new Tile(false, false, false)
+        var c3 = new Tile(false, false, false)
+        var d1 = new Tile(false, false, false)
+        var d2 = new Tile(false, false, false)
+        var d3 = new Tile(false, false, false)
+        
+        var ship1 = new Ship(a1, a2, false, false)
+        var ships = 1
+        var shipsSunk = 0
+      
+        //get user input, guess square to attack
+
+        // check to see if user chosen sqaure is an invalid choice
+
+        function play(userGuess) {
+            if (eval(userGuess).redPin || eval(userGuess).whitePin) {
+                alert("You have already guessed in square " + userGuess + ", guess again")
+                play()
+            }
+            if (eval(userGuess).ship) {
+                eval(userGuess).redPin = true
+                document.getElementById(userGuess).innerHTML = "red pin"
+
+
+                if (ship1.location1 == eval(userGuess)) {
+                    ship1.location1Guessed = true;
+                }
+                if (ship1.location2 == eval(userGuess)) {
+                    ship1.location2Guessed = true;
+                }
+
+                if (ship1.location1Guessed && ship1.location2Guessed) {
+                    alert("you sunk my battleship")
+                    shipsSunk++;
+                    if (shipsSunk == ships) {
+                        alert("game over")
+                    }
+                }
+            }
+
+
+            if (!eval(userGuess).ship) {
+                eval(userGuess).whitePin = true
+                document.getElementById(userGuess).innerHTML = "white pin"
+
+            }
+        }
+
+
+        
+
+
+    </script>
+
+
+</head>
+
+
+<body>
+
+    <center>
+        <div id="turnIndicator">
+            Your Turn!
+        </div>
+
+        <table>
+            <tr>
+                <td>
+                    <button id="a1" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                </td>
+                <td>
+                    <button id="a2" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                </td>
+                <td>
+                    <button id="a3" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="b1" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                </td>
+                <td>
+                    <button id="b2" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                </td>
+                <td>
+                    <button id="b3" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="c1" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                </td>
+                <td>
+                    <button id="c2" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                </td>
+                <td>
+                    <button id="c3" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="d1" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                </td>
+                <td>
+                    <button id="d2" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                </td>
+                <td>
+                    <button id="d3" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                </td>
+            </tr>
+        </table>
+    </center>
+</body>
+
+
+</html>
