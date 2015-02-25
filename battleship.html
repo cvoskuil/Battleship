@@ -8,9 +8,9 @@
     <script>
 
         function Tile(redPin, whitePin, ship) {
-            this.redPin = redPin
-            this.whitePin = whitePin
-            this.ship = ship
+            this.redPin = redPin //string
+            this.whitePin = whitePin //string
+            this.ship = ship //string
           
         }
 
@@ -21,8 +21,74 @@
             this.location2Guessed = location2Guessed //bool
         }
 
-        var a1 = new Tile(false, false, true)
-        var a2 = new Tile(false, false, true)
+        var randomTile1
+        var randomTile2
+        function generateRandomNum() {
+
+
+            var randomNum1 = Math.floor(Math.random() * 3) + 1
+            var randomNum2 = Math.floor(Math.random() * 3) + 1
+            if (randomNum1 == 1) {
+                randomTile1 = "a" + randomNum2.toString()
+            }
+            if (randomNum1 == 2) {
+                randomTile1 = "b" + randomNum2.toString()
+            }
+            if (randomNum1 == 3) {
+                randomTile1 = "c" + randomNum2.toString()
+            }
+            var randomNum3 = Math.floor(Math.random() * 3) + 1
+            var randomNum4 = Math.floor(Math.random() * 3) + 1
+            if (randomNum3 == 1) {
+                randomTile2 = "a" + randomNum4.toString()
+            }
+            if (randomNum3 == 2) {
+                randomTile2 = "b" + randomNum4.toString()
+            }
+            if (randomNum3 == 3) {
+                randomTile2 = "c" + randomNum4.toString()
+            }
+            //validate tiles selected
+            if (randomTile1 == randomTile2) {
+                generateRandomNum()
+            }
+            if (randomTile1 == "a1" && randomTile2 != "b1" && randomTile2 != "a2") {
+                generateRandomNum()
+            }
+            if (randomTile1 == "b1" && randomTile2 != "a1" && randomTile2 != "c1" && randomTile2 != "b2") {
+                generateRandomNum()
+            }
+            if (randomTile1 == "c1" && randomTile2 != "b1" && randomTile2 != "c2") {
+                generateRandomNum()
+            }
+            if (randomTile1 == "a2" && randomTile2 != "a1" && randomTile2 != "b2") {
+                generateRandomNum()
+            }
+            if (randomTile1 == "b2" && randomTile2 != "b1" && randomTile2 != "a2" && randomTile2 != "c2") {
+                generateRandomNum()
+            }
+            if (randomTile1 == "c2" && randomTile2 != "c1" && randomTile2 != "b2") {
+                generateRandomNum()
+            }
+            if (randomTile1 == "a3" && randomTile2 != "a2" && randomTile2 != "b3") {
+                generateRandomNum()
+            }
+            if (randomTile1 == "b3" && randomTile2 != "b2" && randomTile2 != "a3" && randomTile2 != "c3") {
+                generateRandomNum()
+            }
+            if (randomTile1 == "c3" && randomTile2 != "c2" && randomTile2 != "b3") {
+                generateRandomNum()
+            }
+        }
+        generateRandomNum()
+
+        var ship1 = new Ship(randomTile1, randomTile2, false, false)
+        ships = 2
+
+        var shipsSunk = 0
+
+        var a1 = new Tile(false, false, false)
+        var a2 = new Tile(false, false, false)
         var a3 = new Tile(false, false, false)
         var b1 = new Tile(false, false, false)
         var b2 = new Tile(false, false, false)
@@ -30,52 +96,69 @@
         var c1 = new Tile(false, false, false)
         var c2 = new Tile(false, false, false)
         var c3 = new Tile(false, false, false)
-        var d1 = new Tile(false, false, false)
-        var d2 = new Tile(false, false, false)
-        var d3 = new Tile(false, false, false)
         
-        var ship1 = new Ship(a1, a2, false, false)
-        var ships = 1
-        var shipsSunk = 0
-      
-        //get user input, guess square to attack
 
-        // check to see if user chosen sqaure is an invalid choice
+        function generateShips() {
+            if ("a1" == randomTile1 || "a1" == randomTile2) {
+                a1.ship = true;
+            }
+            if ("a2" == randomTile1 || "a2" == randomTile2) {
+                a2.ship = true;
+            }
+            if ("a3" == randomTile1 || "a3" == randomTile2) {
+                a3.ship = true;
+            }
+            if ("b1" == randomTile1 || "b1" == randomTile2) {
+                b1.ship = true;
+            }
+            if ("b2" == randomTile1 || "b2" == randomTile2) {
+                b2.ship = true;
+            }
+            if ("b3" == randomTile1 || "b3" == randomTile2) {
+                b3.ship = true;
+            }
+            if ("c1" == randomTile1 || "c1" == randomTile2) {
+                c1.ship = true;
+            } 
+            if ("c2" == randomTile1 || "c2" == randomTile2) {
+                c2.ship = true;
+            }
+            if ("c3" == randomTile1 || "c3" == randomTile2) {
+                c3.ship = true;
+            }       
+
+            alert(a1.ship + " " + a2.ship + " " + a3.ship + " " + b1.ship + " " + b2.ship + " " + b3.ship + " " + c1.ship + " " + c2.ship + " " + c3.ship)
+        }
+      
 
         function play(userGuess) {
             if (eval(userGuess).redPin || eval(userGuess).whitePin) {
                 alert("You have already guessed in square " + userGuess + ", guess again")
-                play()
+                return
             }
             if (eval(userGuess).ship) {
                 eval(userGuess).redPin = true
                 document.getElementById(userGuess).innerHTML = "red pin"
-
-
-                if (ship1.location1 == eval(userGuess)) {
+                if (!ship1.location1Guessed) {
                     ship1.location1Guessed = true;
+                    return
                 }
-                if (ship1.location2 == eval(userGuess)) {
+                if (!ship1.location2Guessed && ship1.location1Guessed) {
                     ship1.location2Guessed = true;
                 }
-
-                if (ship1.location1Guessed && ship1.location2Guessed) {
-                    alert("you sunk my battleship")
-                    shipsSunk++;
-                    if (shipsSunk == ships) {
-                        alert("game over")
-                    }
-                }
             }
-
-
             if (!eval(userGuess).ship) {
                 eval(userGuess).whitePin = true
                 document.getElementById(userGuess).innerHTML = "white pin"
-
+            }
+            if (ship1.location2Guessed && ship1.location1Guessed) {
+                alert("you sunk my battleship")
+                shipsSunk++;
+                if (shipsSunk == ships) {
+                    alert("game over")
+                }
             }
         }
-
 
         
 
@@ -90,55 +173,333 @@
 
     <center>
         <div id="turnIndicator">
-            Your Turn!
+            Your Have 3 Guesses Left!
         </div>
 
         <table>
             <tr>
-                <td>
-                    <button id="a1" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                <td>A
+                    <button id="a1" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
                 </td>
                 <td>
-                    <button id="a2" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                    <button id="a2" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
                 </td>
                 <td>
-                    <button id="a3" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                    <button id="a3" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="a4" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="a5" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="a6" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="a7" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="a8" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="a9" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="a10" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
                 </td>
             </tr>
             <tr>
-                <td>
-                    <button id="b1" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                <td>B
+                    <button id="b1" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
                 </td>
                 <td>
-                    <button id="b2" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                    <button id="b2" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
                 </td>
                 <td>
-                    <button id="b3" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                    <button id="b3" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="b4" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="b5" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="b6" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="b7" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="b8" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="b9" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="b10" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
                 </td>
             </tr>
             <tr>
-                <td>
-                    <button id="c1" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                <td>C
+                    <button id="c1" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
                 </td>
                 <td>
-                    <button id="c2" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                    <button id="c2" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
                 </td>
                 <td>
-                    <button id="c3" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                    <button id="c3" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="c4" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="c5" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="c6" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="c7" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="c8" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="c9" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="c10" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
                 </td>
             </tr>
             <tr>
-                <td>
-                    <button id="d1" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                <td>D
+                    <button id="d1" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
                 </td>
                 <td>
-                    <button id="d2" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                    <button id="d2" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
                 </td>
                 <td>
-                    <button id="d3" onclick="play(this.id)" style="height: 100px; width: 100px"></button>
+                    <button id="d3" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="d4" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="d5" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="d6" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="d7" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="d8" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="d9" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="d10" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
                 </td>
             </tr>
+            <tr>
+                <td>E
+                    <button id="e1" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="e2" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="e3" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="e4" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="e5" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="e6" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="e7" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="e8" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="e9" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="e10" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>F
+                    <button id="f1" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="f2" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="f3" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="f4" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="f5" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="f6" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="f7" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="f8" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="f9" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="f10" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>G
+                    <button id="g1" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="g2" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="g3" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="g4" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="g5" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="g6" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="g7" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="g8" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="g9" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="g10" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>H
+                    <button id="h1" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="h2" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="h3" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="h4" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="h5" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="h6" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="h7" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="h8" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="h9" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="h10" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>I
+                    <button id="i1" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="i2" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="i3" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="i4" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="i5" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="i6" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="i7" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="i8" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="i9" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="i10" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>J
+                    <button id="j1" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="j2" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="j3" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="j4" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="j5" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="j6" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="j7" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="j8" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="j9" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+                <td>
+                    <button id="j10" onclick="play(this.id)" style="height: 50px; width: 50px"></button>
+                </td>
+            </tr>
+          
         </table>
+        <button id="test" onclick ="generateShips()">Test</button>
     </center>
 </body>
 
