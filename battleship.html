@@ -20,72 +20,81 @@
             this.location1Guessed = location1Guessed //bool
             this.location2Guessed = location2Guessed //bool
         }
-
-        var randomTile1
-        var randomTile2
-        function generateRandomNum() {
-
-
-            var randomNum1 = Math.floor(Math.random() * 3) + 1
-            var randomNum2 = Math.floor(Math.random() * 3) + 1
-            if (randomNum1 == 1) {
-                randomTile1 = "a" + randomNum2.toString()
+        
+        var shipsCreated = 0
+        var randomTile
+        function generateRandomTile(randomNum, randomNum2) {
+            if (randomNum == 1) {
+                randomTile = "a" + randomNum2.toString()
+                alert(randomTile)
             }
-            if (randomNum1 == 2) {
-                randomTile1 = "b" + randomNum2.toString()
+            if (randomNum == 2) {
+                randomTile = "b" + randomNum2.toString()
+                alert(randomTile)
             }
-            if (randomNum1 == 3) {
-                randomTile1 = "c" + randomNum2.toString()
+            if (randomNum == 3) {
+                randomTile = "c" + randomNum2.toString()
+                alert(randomTile)
             }
-            var randomNum3 = Math.floor(Math.random() * 3) + 1
-            var randomNum4 = Math.floor(Math.random() * 3) + 1
-            if (randomNum3 == 1) {
-                randomTile2 = "a" + randomNum4.toString()
+            if (randomNum == 4) {
+                randomTile = "d" + randomNum2.toString()
+                alert(randomTile)
             }
-            if (randomNum3 == 2) {
-                randomTile2 = "b" + randomNum4.toString()
+            if (randomNum == 5) {
+                randomTile = "e" + randomNum2.toString()
+                alert(randomTile)
             }
-            if (randomNum3 == 3) {
-                randomTile2 = "c" + randomNum4.toString()
+            if (randomNum == 6) {
+                randomTile = "f" + randomNum2.toString()
+                alert(randomTile)
             }
-            //validate tiles selected
-            if (randomTile1 == randomTile2) {
-                generateRandomNum()
+            if (randomNum == 7) {
+                randomTile = "g" + randomNum2.toString()
+                alert(randomTile)
             }
-            if (randomTile1 == "a1" && randomTile2 != "b1" && randomTile2 != "a2") {
-                generateRandomNum()
+            if (randomNum == 8) {
+                randomTile = "h" + randomNum2.toString()
+                alert(randomTile)
             }
-            if (randomTile1 == "b1" && randomTile2 != "a1" && randomTile2 != "c1" && randomTile2 != "b2") {
-                generateRandomNum()
-            }
-            if (randomTile1 == "c1" && randomTile2 != "b1" && randomTile2 != "c2") {
-                generateRandomNum()
-            }
-            if (randomTile1 == "a2" && randomTile2 != "a1" && randomTile2 != "b2") {
-                generateRandomNum()
-            }
-            if (randomTile1 == "b2" && randomTile2 != "b1" && randomTile2 != "a2" && randomTile2 != "c2") {
-                generateRandomNum()
-            }
-            if (randomTile1 == "c2" && randomTile2 != "c1" && randomTile2 != "b2") {
-                generateRandomNum()
-            }
-            if (randomTile1 == "a3" && randomTile2 != "a2" && randomTile2 != "b3") {
-                generateRandomNum()
-            }
-            if (randomTile1 == "b3" && randomTile2 != "b2" && randomTile2 != "a3" && randomTile2 != "c3") {
-                generateRandomNum()
-            }
-            if (randomTile1 == "c3" && randomTile2 != "c2" && randomTile2 != "b3") {
-                generateRandomNum()
-            }
+            generateShipDirection()
+            
         }
-        generateRandomNum()
+        var shipDirecton
+        function generateShipDirection() {
+            var randomNum = Math.floor(Math.random() * 2) + 1
+            if (randomNum == 1) {
+                shipDirection = "vertical"
+            }
+            else {
+                shipDirection = "horizontal"
+            }
+            alert(shipDirection)
+            shipsCreated++
+            generateShips()
+        }
 
-        var ship1 = new Ship(randomTile1, randomTile2, false, false)
-        ships = 2
+        function generateShips() {
+            var shipNumber = eval("ship" + shipsCreated)
+            shipNumber.location1 = randomTile
+            var ar1 = randomTile.split("")
+            if (shipDirection == "horizontal") {
+                eval(shipNumber).location2 = ar1[0] + (parseInt(ar1[1]) + 1)
+            }
+            if (shipDirection == "vertical") {
+                eval(shipNumber).location2 = String.fromCharCode(ar1[0].charCodeAt(0) + 1) + ar1[1]
+            } 
+            alert(eval(shipNumber).location2)
+        }
 
-        var shipsSunk = 0
+        var ship1 = new Ship(null, null, false, false)
+        var ship2 = new Ship(null, null, false, false)
+        var ship3 = new Ship(null, null, false, false)
+        var ship4 = new Ship(null, null, false, false)
+        var ship5 = new Ship(null, null, false, false)
+
+
+        var ships = 2
+        var shipsSunk = 0 
 
         var a1 = new Tile(false, false, false)
         var a2 = new Tile(false, false, false)
@@ -98,13 +107,8 @@
         var c3 = new Tile(false, false, false)
         
 
-        function generateShips() {
-            if ("a1" == randomTile1 || "a1" == randomTile2) {
-                a1.ship = true;
-            }
-            if ("a2" == randomTile1 || "a2" == randomTile2) {
-                a2.ship = true;
-            }
+        function setTileStatus() {
+
             if ("a3" == randomTile1 || "a3" == randomTile2) {
                 a3.ship = true;
             }
@@ -132,12 +136,8 @@
       
 
         function play(userGuess) {
-            if (eval(userGuess).redPin || eval(userGuess).whitePin) {
-                alert("You have already guessed in square " + userGuess + ", guess again")
-                return
-            }
-            if (eval(userGuess).ship) {
-                eval(userGuess).redPin = true
+            console.log(ship1.location1 + "  " + ship1.location2)
+            if (ship1.location1 == userGuess || ship1.location2 == userGuess) {
                 document.getElementById(userGuess).innerHTML = "red pin"
                 if (!ship1.location1Guessed) {
                     ship1.location1Guessed = true;
@@ -147,8 +147,7 @@
                     ship1.location2Guessed = true;
                 }
             }
-            if (!eval(userGuess).ship) {
-                eval(userGuess).whitePin = true
+            if (!(ship1.location1 == userGuess || ship1.location2 == userGuess)) {
                 document.getElementById(userGuess).innerHTML = "white pin"
             }
             if (ship1.location2Guessed && ship1.location1Guessed) {
@@ -499,7 +498,7 @@
             </tr>
           
         </table>
-        <button id="test" onclick ="generateShips()">Test</button>
+        <button id="test" onclick ="generateRandomTile((Math.floor(Math.random() * 8) + 1), (Math.floor(Math.random() * 8) + 1))">Test</button>
     </center>
 </body>
 
