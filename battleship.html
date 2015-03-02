@@ -93,8 +93,8 @@
         var ship5 = new Ship(null, null, false, false)
 
 
-        var ships = 2
-        var shipsSunk = 0 
+        var ships = 5
+        var shipsSunk = 0
 
         var a1 = new Tile(false, false, false)
         var a2 = new Tile(false, false, false)
@@ -105,52 +105,74 @@
         var c1 = new Tile(false, false, false)
         var c2 = new Tile(false, false, false)
         var c3 = new Tile(false, false, false)
-        
-
-        function setTileStatus() {
-
-            if ("a3" == randomTile1 || "a3" == randomTile2) {
-                a3.ship = true;
-            }
-            if ("b1" == randomTile1 || "b1" == randomTile2) {
-                b1.ship = true;
-            }
-            if ("b2" == randomTile1 || "b2" == randomTile2) {
-                b2.ship = true;
-            }
-            if ("b3" == randomTile1 || "b3" == randomTile2) {
-                b3.ship = true;
-            }
-            if ("c1" == randomTile1 || "c1" == randomTile2) {
-                c1.ship = true;
-            } 
-            if ("c2" == randomTile1 || "c2" == randomTile2) {
-                c2.ship = true;
-            }
-            if ("c3" == randomTile1 || "c3" == randomTile2) {
-                c3.ship = true;
-            }       
-
-            alert(a1.ship + " " + a2.ship + " " + a3.ship + " " + b1.ship + " " + b2.ship + " " + b3.ship + " " + c1.ship + " " + c2.ship + " " + c3.ship)
-        }
-      
+             
 
         function play(userGuess) {
-            console.log(ship1.location1 + "  " + ship1.location2)
             if (ship1.location1 == userGuess || ship1.location2 == userGuess) {
-                document.getElementById(userGuess).innerHTML = "red pin"
+                document.getElementById(userGuess).style.background = '#a10000'
+
                 if (!ship1.location1Guessed) {
-                    ship1.location1Guessed = true;
-                    return
+                    ship1.location1Guessed = true
                 }
-                if (!ship1.location2Guessed && ship1.location1Guessed) {
-                    ship1.location2Guessed = true;
+                else {
+                    ship1.location2Guessed = true
                 }
             }
-            if (!(ship1.location1 == userGuess || ship1.location2 == userGuess)) {
-                document.getElementById(userGuess).innerHTML = "white pin"
+
+            if (ship2.location1 == userGuess || ship2.location2 == userGuess) {
+                document.getElementById(userGuess).style.background = '#a10000'
+
+                if (!ship2.location1Guessed) {
+                    ship2.location1Guessed = true
+                }
+                else {
+                    ship2.location2Guessed = true
+                }
             }
-            if (ship1.location2Guessed && ship1.location1Guessed) {
+
+            if (ship3.location1 == userGuess || ship3.location2 == userGuess) {
+                document.getElementById(userGuess).style.background = '#a10000'
+
+                if (!ship3.location1Guessed) {
+                    ship3.location1Guessed = true
+                }
+                else {
+                    ship3.location2Guessed = true
+                }
+            }
+
+            if (ship4.location1 == userGuess || ship4.location2 == userGuess) {
+                document.getElementById(userGuess).style.background = '#a10000'
+
+                if (!ship4.location1Guessed) {
+                    ship4.location1Guessed = true
+                }
+                else {
+                    ship4.location2Guessed = true
+                }
+            }
+
+            if (ship5.location1 == userGuess || ship5.location2 == userGuess) {
+                document.getElementById(userGuess).style.background = '#a10000'
+
+                if (!ship5.location1Guessed) {
+                    ship5.location1Guessed = true
+                }
+                else {
+                    ship5.location2Guessed = true
+                }
+            }
+
+
+
+            if (!(ship1.location1 == userGuess || ship1.location2 == userGuess || ship2.location1 == userGuess || ship2.location2 == userGuess || ship3.location1 == userGuess || ship3.location2 == userGuess || ship4.location1 == userGuess || ship4.location2 == userGuess || ship5.location1 == userGuess || ship5.location2 == userGuess)) {
+                document.getElementById(userGuess).style.background = '#9db2ff'
+
+            }
+
+
+
+            if ((ship1.location2Guessed && ship1.location1Guessed) || (ship2.location1Guessed && ship2.location2Guessed) || (ship3.location1Guessed && ship3.location2Guessed) || (ship4.location1Guessed && ship4.location2Guessed) || (ship5.location1Guessed && ship5.location2Guessed)) {
                 alert("you sunk my battleship")
                 shipsSunk++;
                 if (shipsSunk == ships) {
